@@ -43,7 +43,8 @@ html {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--bg);
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff8a65 20%, #ffd54f 40%, #4fc3f7 60%, #a855f7 80%, #1a1a2e 100%);
+  background-attachment: fixed;
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
@@ -55,6 +56,8 @@ body {
   max-width: 720px;
   margin: 0 auto;
   padding: 0;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 720px) {
@@ -66,7 +69,9 @@ body {
 /* ─── Header ────────────────────────────────────────────────────────────── */
 
 .app-header {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff8a65 25%, #ffd54f 50%, #4fc3f7 75%, #ab47bc 100%);
+  background: transparent;
+  position: relative;
+  z-index: 1;
   padding: 2rem 1.5rem;
   margin-bottom: 0;
 }
@@ -100,20 +105,6 @@ body {
   }
 }
 
-/* ─── Wave Divider ──────────────────────────────────────────────────────── */
-
-.wave-divider {
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  margin-top: -1px; /* clean join with gradient above */
-}
-
-.wave-divider svg {
-  width: 100%;
-  height: 60px;
-}
-
 /* ─── Input Section ─────────────────────────────────────────────────────── */
 
 .input-section {
@@ -136,26 +127,107 @@ body {
 #ingredient-input {
   display: block;
   width: 100%;
-  background: rgba(255,255,255,0.08);
+  background: transparent;
+  border: none;
   color: var(--text);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
+  outline: none;
   font-family: "SF Mono", Monaco, monospace;
   font-size: 0.9rem;
   line-height: 1.6;
   min-height: 200px;
   resize: vertical;
-  transition: border-color 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 #ingredient-input:focus {
-  border-color: var(--accent-pink);
+  border: none;
   outline: none;
+  box-shadow: none;
 }
 
 #ingredient-input::placeholder {
-  color: rgba(240, 230, 255, 0.35);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Cloud Textarea Container ───────────────────────────────────────────── */
+
+.cloud-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.cloud-shape {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 100px;
+  padding: 3rem 2rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Puffy bumps around the cloud */
+.cloud-shape::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 15%;
+  width: 120px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 60px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  z-index: -1;
+}
+
+.cloud-shape::after {
+  content: '';
+  position: absolute;
+  top: -45px;
+  right: 20%;
+  width: 160px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 80px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  z-index: -1;
+}
+
+.cloud-container::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 8%;
+  width: 90px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.cloud-container::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 12%;
+  width: 100px;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 55px;
+  z-index: -1;
 }
 
 /* Inline message below textarea */
@@ -304,8 +376,9 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(26, 26, 46, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(26, 26, 46, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   padding: 0.75rem 1rem;
   display: flex;
@@ -353,7 +426,9 @@ body {
 /* ─── Disclaimer Banner ─────────────────────────────────────────────────── */
 
 .disclaimer-banner {
-  background: rgba(251, 191, 36, 0.1);
+  background: rgba(251, 191, 36, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-left: 4px solid var(--accent-yellow);
   padding: 1rem;
   margin: 1rem 0;
@@ -383,8 +458,9 @@ body {
 /* ─── Concern Items ──────────────────────────────────────────────────────── */
 
 .result-item {
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
+  background: rgba(26, 26, 46, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 2px solid var(--border);
   border-radius: 12px;
   margin-bottom: 1rem;
@@ -743,7 +819,9 @@ body {
 .safe-ingredients {
   padding: 0.75rem 1rem;
   border-top: 1px solid var(--border);
-  background-color: rgba(255,255,255,0.03);
+  background-color: rgba(26, 26, 46, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-size: 0.875rem;
   color: var(--text-muted);
   line-height: 1.65;
@@ -832,6 +910,116 @@ body {
   }
 }
 
+/* ─── Pixel Art Decorations ──────────────────────────────────────────────── */
+
+.pixel-art {
+  pointer-events: none;
+}
+
+/* Palm tree */
+.pixel-palmtree {
+  width: 4px;
+  height: 4px;
+  position: fixed;
+  bottom: 10%;
+  left: 3%;
+  opacity: 0.7;
+  z-index: 0;
+  box-shadow:
+    /* Trunk */
+    8px 0px #8B4513, 8px 4px #8B4513, 8px 8px #8B4513, 8px 12px #8B4513,
+    8px 16px #8B4513, 8px 20px #8B4513, 8px 24px #8B4513, 8px 28px #8B4513,
+    /* Leaves - green */
+    0px 0px #228B22, 4px 0px #228B22, 12px 0px #228B22, 16px 0px #228B22, 20px 4px #228B22,
+    0px 4px #228B22, 4px 4px #32CD32, 12px 4px #32CD32, 16px 4px #228B22,
+    4px 8px #228B22, 8px 4px #006400, 12px 8px #228B22,
+    /* Coconuts */
+    6px 12px #8B4513, 10px 12px #8B4513;
+}
+
+/* Dolphin */
+.pixel-dolphin {
+  width: 4px;
+  height: 4px;
+  position: fixed;
+  top: 30%;
+  right: 3%;
+  opacity: 0.7;
+  z-index: 0;
+  box-shadow:
+    /* Body - cyan/blue */
+    8px 0px #00BCD4, 12px 0px #00BCD4, 16px 0px #00BCD4,
+    4px 4px #00BCD4, 8px 4px #26C6DA, 12px 4px #26C6DA, 16px 4px #00BCD4, 20px 4px #00BCD4,
+    0px 8px #00BCD4, 4px 8px #26C6DA, 8px 8px #26C6DA, 12px 8px #26C6DA, 16px 8px #26C6DA,
+    0px 12px #0097A7, 4px 12px #00BCD4, 8px 12px #0097A7, 12px 12px #00BCD4, 16px 12px #0097A7,
+    /* Eye */
+    6px 6px #FFFFFF, 10px 6px #FFFFFF;
+}
+
+/* Rainbow arc */
+.pixel-rainbow {
+  width: 4px;
+  height: 4px;
+  position: fixed;
+  top: 15%;
+  left: 5%;
+  opacity: 0.6;
+  z-index: 0;
+  box-shadow:
+    /* Red stripe */
+    4px 0px #FF0000, 8px 0px #FF0000, 12px 0px #FF0000, 16px 0px #FF0000, 20px 0px #FF0000, 24px 0px #FF0000,
+    /* Orange */
+    0px 4px #FF7F00, 4px 4px #FF7F00, 8px 4px #FF7F00, 12px 4px #FF7F00, 16px 4px #FF7F00, 20px 4px #FF7F00, 24px 4px #FF7F00,
+    /* Yellow */
+    4px 8px #FFFF00, 8px 8px #FFFF00, 12px 8px #FFFF00, 16px 8px #FFFF00, 20px 8px #FFFF00,
+    /* Green */
+    4px 12px #00FF00, 8px 12px #00FF00, 12px 12px #00FF00, 16px 12px #00FF00, 20px 12px #0018FF,
+    /* Blue */
+    4px 16px #0000FF, 8px 16px #0000FF, 12px 16px #0000FF, 16px 16px #0000FF,
+    /* Purple */
+    4px 20px #8B00FF, 8px 20px #8B00FF, 12px 20px #8B00FF;
+}
+
+/* Sun with sunglasses */
+.pixel-sun {
+  width: 4px;
+  height: 4px;
+  position: fixed;
+  bottom: 20%;
+  right: 5%;
+  opacity: 0.7;
+  z-index: 0;
+  box-shadow:
+    /* Rays */
+    8px 0px #FFD700, 12px 0px #FFD700,
+    0px 4px #FFD700, 4px 4px #FFD700, 16px 4px #FFD700, 20px 4px #FFD700,
+    0px 8px #FFD700, 20px 8px #FFD700,
+    4px 12px #FFD700, 16px 12px #FFD700,
+    0px 16px #FFD700, 20px 16px #FFD700,
+    4px 20px #FFD700, 16px 20px #FFD700,
+    8px 24px #FFD700, 12px 24px #FFD700,
+    /* Face - yellow */
+    8px 8px #FFC107, 12px 8px #FFC107,
+    4px 12px #FFC107, 8px 12px #FFC107, 12px 12px #FFC107, 16px 12px #FFC107,
+    4px 16px #FFC107, 16px 16px #FFC107,
+    8px 20px #FFC107, 12px 20px #FFC107,
+    /* Sunglasses - black */
+    4px 12px #1a1a1a, 8px 12px #1a1a1a, 12px 12px #1a1a1a, 16px 12px #2d2d2d,
+    /* Smile */
+    8px 20px #FF8F00, 12px 20px #FF8F00;
+}
+
+@media (max-width: 768px) {
+  .pixel-palmtree,
+  .pixel-dolphin {
+    display: none;
+  }
+  .pixel-rainbow,
+  .pixel-sun {
+    opacity: 0.3;
+  }
+}
+
 /* ─── Print Styles ───────────────────────────────────────────────────────── */
 
 @media print {
@@ -898,8 +1086,9 @@ body {
 
   /* Hide interactive elements */
   .btn-primary, .btn-secondary, .stale-overlay, #ingredient-input,
-  #analyze-btn, #clear-btn, .wave-divider, .sparkle-divider,
-  .disclaimer-banner, .input-controls, .input-help {
+  #analyze-btn, #clear-btn, .sparkle-divider,
+  .disclaimer-banner, .input-controls, .input-help,
+  .pixel-art, .cloud-container {
     display: none !important;
   }
 
@@ -988,5 +1177,19 @@ body {
   .empty-state,
   .empty-message {
     color: #000000 !important;
+  }
+
+  .cloud-shape {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .cloud-shape::before,
+  .cloud-shape::after,
+  .cloud-container::before,
+  .cloud-container::after {
+    display: none !important;
   }
 }

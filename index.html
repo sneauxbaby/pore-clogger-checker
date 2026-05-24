@@ -8,6 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="pixel-art pixel-palmtree" aria-hidden="true"></div>
+  <div class="pixel-art pixel-dolphin" aria-hidden="true"></div>
+  <div class="pixel-art pixel-rainbow" aria-hidden="true"></div>
+  <div class="pixel-art pixel-sun" aria-hidden="true"></div>
   <main class="container">
     <!-- HEADER -->
     <header class="app-header">
@@ -18,12 +22,16 @@
     <!-- INPUT SECTION -->
     <section class="input-section">
       <label for="ingredient-input" class="sr-only">Paste ingredient list</label>
-      <textarea
-        id="ingredient-input"
-        placeholder="Paste the full ingredient list EXACTLY as it appears on the product label, preserving the order. Ingredients at the top have higher concentrations.&#10;&#10;Example: Water, Isopropyl Myristate, Glycerin, Cetearyl Alcohol, Dimethicone..."
-        rows="10"
-        aria-describedby="input-help"
-      ></textarea>
+      <div class="cloud-container">
+        <div class="cloud-shape">
+          <textarea
+            id="ingredient-input"
+            placeholder="Paste the full ingredient list EXACTLY as it appears on the product label, preserving the order. Ingredients at the top have higher concentrations.&#10;&#10;Example: Water, Isopropyl Myristate, Glycerin, Cetearyl Alcohol, Dimethicone..."
+            rows="10"
+            aria-describedby="input-help"
+          ></textarea>
+        </div>
+      </div>
       <p id="input-help" class="input-help">Commas, line breaks, and bullet points all work. Slashes are treated as INCI synonyms.</p>
       <p id="input-message" class="input-message" role="alert"></p>
 
@@ -39,13 +47,6 @@
         </div>
       </div>
     </section>
-
-    <!-- WAVE DIVIDER -->
-    <div class="wave-divider">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="var(--bg)"/>
-      </svg>
-    </div>
 
     <!-- RESULTS PANEL (hidden initially) -->
     <section id="results" class="results-section" style="display: none;" role="region" aria-live="polite" aria-label="Analysis results">
