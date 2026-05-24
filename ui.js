@@ -429,6 +429,13 @@ function renderResults(results) {
   } else {
     for (var i = 0; i < results.concerns.length; i++) {
       concernsList.appendChild(renderConcernItem(results.concerns[i]));
+      if (i < results.concerns.length - 1) {
+        var sparkleDiv = document.createElement("div");
+        sparkleDiv.className = "sparkle-divider";
+        sparkleDiv.setAttribute("aria-hidden", "true");
+        sparkleDiv.textContent = "✦ ✦ ✦";
+        concernsList.appendChild(sparkleDiv);
+      }
     }
   }
 
@@ -447,10 +454,10 @@ function renderConcernItem(concern) {
   item.className = "result-item " + concern.tier;
 
   const badgeColors = {
-    "\uD83D\uDD34": "red",
-    "\uD83D\uDFE1": "yellow",
-    "\u26A0\uFE0F": "blue",
-    "\u2705": "green"
+    "\uD83D\uDD34": "badge-red",
+    "\uD83D\uDFE1": "badge-orange",
+    "\u26A0\uFE0F": "badge-blue",
+    "\u2705": "badge-green"
   };
   const badgeColor = badgeColors[concern.badge] || "gray";
 
@@ -497,6 +504,15 @@ function renderConcernItem(concern) {
 
   var escId = escapeHtml(concern.entry.id);
 
+  var stars = '';
+  switch (concern.entry.scientificConfidence) {
+    case 'strong': stars = '★★★★☆'; break;
+    case 'moderate': stars = '★★★☆☆'; break;
+    case 'weak': stars = '★★☆☆☆'; break;
+    case 'disputed': stars = '★☆☆☆☆'; break;
+    default: stars = '☆☆☆☆☆';
+  }
+
   item.innerHTML =
     '<button class="result-header" aria-expanded="false" aria-controls="' +
     safeId +
@@ -533,6 +549,10 @@ function renderConcernItem(concern) {
     '<span class="category-badge">' +
     formatCategory(concern.entry.category) +
     "</span>" +
+    '<div class="star-rating">' +
+    '<span class="stars">' + stars + '</span>' +
+    '<span class="star-label">Scientific confidence: ' + escapeHtml(concern.entry.scientificConfidence) + '</span>' +
+    "</div>" +
     '<p class="rationale">' +
     escapeHtml(concern.entry.rationale) +
     "</p>" +
