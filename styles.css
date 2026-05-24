@@ -129,7 +129,7 @@ body {
   width: 100%;
   background: transparent;
   border: none;
-  color: var(--text);
+  color: #ec4899;
   outline: none;
   font-family: "SF Mono", Monaco, monospace;
   font-size: 0.9rem;
@@ -147,7 +147,7 @@ body {
 }
 
 #ingredient-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(236, 72, 153, 0.4);
 }
 
 /* ─── Cloud Textarea Container ───────────────────────────────────────────── */
