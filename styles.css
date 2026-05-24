@@ -723,6 +723,58 @@ body {
   letter-spacing: 0.5em;
 }
 
+/* ─── Rule of 7 Badge ────────────────────────────────────────────────────── */
+
+.rule-7-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border-radius: 50px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+/* ─── Product Score ─────────────────────────────────────────────────────── */
+
+.product-score {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-left: auto;
+}
+
+.product-score.score-excellent { background: rgba(21, 128, 61, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+.product-score.score-good { background: rgba(15, 118, 110, 0.2); color: #5eead4; border: 1px solid rgba(94, 234, 212, 0.3); }
+.product-score.score-fair { background: rgba(194, 65, 12, 0.2); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.3); }
+.product-score.score-caution { background: rgba(190, 24, 93, 0.2); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.3); }
+.product-score.score-risk { background: rgba(190, 24, 93, 0.3); color: #fda4af; border: 1px solid rgba(253, 164, 175, 0.4); }
+
+/* ─── Score Explanation ─────────────────────────────────────────────────── */
+
+.score-explanation {
+  margin: 0.5rem 0 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.score-explanation summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.score-explanation p {
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
 /* ─── Safe List ─────────────────────────────────────────────────────────── */
 
 #safe-list {

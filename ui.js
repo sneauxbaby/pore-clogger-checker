@@ -296,6 +296,12 @@ function copyAllResults() {
     ""
   ];
 
+  if (results.score) {
+    lines.push('Product Score: ' + results.score.score + '/10 \u2014 ' + results.score.label);
+  }
+
+  lines.push("");
+
   const red = results.concerns.filter(function (c) {
     return c.badge === "\uD83D\uDD34";
   });
@@ -418,6 +424,19 @@ function renderResults(results) {
     (safeCount === 1 ? "s" : "") +
     " safe</span>";
 
+  var scoreHtml = '';
+  if (results.score) {
+    var scoreClass = '';
+    if (results.score.score >= 9) scoreClass = 'score-excellent';
+    else if (results.score.score >= 7) scoreClass = 'score-good';
+    else if (results.score.score >= 5) scoreClass = 'score-fair';
+    else if (results.score.score >= 3) scoreClass = 'score-caution';
+    else scoreClass = 'score-risk';
+
+    scoreHtml = '<span class="product-score ' + scoreClass + '">Score: ' + results.score.score + '/10 \u2014 ' + results.score.label + '</span>';
+  }
+  summaryHtml += scoreHtml;
+
   summaryBar.innerHTML = summaryHtml;
 
   // ── Concerns List ──
@@ -532,6 +551,7 @@ function renderConcernItem(concern) {
     '<span class="position-badge">Position ' +
     concern.position +
     "</span>" +
+    (concern.ruleOf7 ? '<span class="rule-7-badge" title="Top 7 ingredients have the highest concentration">\uD83C\uDFF7\uFE0F Top 7</span>' : '') +
     '<span class="match-info">' +
     escapeHtml(matchInfoHtml) +
     "</span>" +

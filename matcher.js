@@ -652,27 +652,21 @@ function classifyMatch(match, totalIngredients, orderVerified) {
   const { entry, matchConfidence } = match;
   const sci = entry.scientificConfidence;
 
+  var result;
+
   // Strong science + high match confidence → concentration-tiered.
   if (matchConfidence === 'high' && sci === 'strong') {
-    return getConcentrationTier(match, totalIngredients, orderVerified);
+    result = getConcentrationTier(match, totalIngredients, orderVerified);
+  } else if (matchConfidence === 'high' && sci === 'moderate') {
+    result = { ...match, badge: '\uD83D\uDFE1', tier: 'possible', tierLabel: 'Possible Concern' };
+  } else {
+    result = { ...match, badge: '\u26A0\uFE0F', tier: 'uncertain', tierLabel: 'Uncertain' };
   }
 
-  // Strong science + moderate match → (not in matrix; treat as uncertain).
-  // High confidence + moderate science → possible concern.
-  if (matchConfidence === 'high' && sci === 'moderate') {
-    return { ...match, badge: '\uD83D\uDFE1', tier: 'possible', tierLabel: 'Possible Concern' };
-  }
+  // Add ruleOf7 to ALL concern tiers (not just RED)
+  result.ruleOf7 = (match.position <= 7 && match.position <= totalIngredients);
 
-  // Anything else → uncertain.
-  if (
-    (matchConfidence === 'high' && (sci === 'weak' || sci === 'disputed')) ||
-    matchConfidence === 'moderate' ||
-    matchConfidence === 'low'
-  ) {
-    return { ...match, badge: '\u26A0\uFE0F', tier: 'uncertain', tierLabel: 'Uncertain' };
-  }
-
-  return { ...match, badge: '\u2705', tier: 'safe', tierLabel: 'Safe' };
+  return result;
 }
 
 
@@ -889,13 +883,79 @@ function analyzeIngredients(inputText, orderVerified) {
   }).length;
   const safeCount = allSafe.length;
 
+  const productScore = calculateProductScore(concerns, total);
+
   return {
     summary: { total: total, concernCount: concernCount, uncertainCount: uncertainCount, safeCount: safeCount },
+    score: productScore,
     concerns: concerns,
     safe: allSafe
   };
 }
 
+
+// ─── Product Score ────────────────────────────────────────────────────────────
+
+/**
+ * Calculate a 1-10 product score based on flagged ingredients.
+ *
+ * Penalties:
+ *   🔴 (red/high concern):
+ *     - Short list (≤2 ingredients): 6 points
+ *     - Top 20% of list: 3 points
+ *     - 20-50%: 2 points
+ *     - Bottom 50%: 1 point
+ *   🟡 (yellow/moderate):
+ *     - Short list: 3 points
+ *     - Top 20%: 2 points
+ *     - 20-50%: 1 point
+ *     - Bottom 50%: 0.5 points
+ *   ⚠️ (uncertain): 0.25 points each
+ *
+ * @param {object[]} concerns        Classified concern objects.
+ * @param {number} totalIngredients  Total ingredient count.
+ * @returns {{ score: number, label: string, penalty: number } | null}
+ */
+function calculateProductScore(concerns, totalIngredients) {
+  if (!totalIngredients || totalIngredients <= 0) return null;
+
+  var penalty = 0;
+  var isShortList = totalIngredients <= 2;
+
+  for (var i = 0; i < concerns.length; i++) {
+    var concern = concerns[i];
+    var posRatio = concern.position / totalIngredients;
+    var ingredientPenalty = 0;
+
+    if (concern.badge === '\uD83D\uDD34') {
+      if (isShortList) ingredientPenalty = 6;
+      else if (posRatio <= 0.20) ingredientPenalty = 3;
+      else if (posRatio <= 0.50) ingredientPenalty = 2;
+      else ingredientPenalty = 1;
+    } else if (concern.badge === '\uD83D\uDFE1') {
+      if (isShortList) ingredientPenalty = 3;
+      else if (posRatio <= 0.20) ingredientPenalty = 2;
+      else if (posRatio <= 0.50) ingredientPenalty = 1;
+      else ingredientPenalty = 0.5;
+    } else { // ⚠️
+      ingredientPenalty = 0.25;
+    }
+
+    penalty += ingredientPenalty;
+  }
+
+  var rawScore = 10 - penalty;
+  var score = Math.max(1, Math.min(10, Math.round(rawScore)));
+
+  var label;
+  if (score >= 9) label = 'Excellent';
+  else if (score >= 7) label = 'Good';
+  else if (score >= 5) label = 'Fair';
+  else if (score >= 3) label = 'Caution';
+  else label = 'High Risk';
+
+  return { score: score, label: label, penalty: penalty };
+}
 
 // ─── Inline Test Cases ────────────────────────────────────────────────────────
 
@@ -1042,7 +1102,14 @@ window.runMatcherTests = function () {
       name: 'Compound split',
       input: 'Coconut Oil Isopropyl Myristate',
       check: function (r) { return r.concerns.length >= 2; }
-    }
+    },
+
+    // ── Product score tests ──
+    { name: 'Score: no concerns = 10 Excellent', input: 'Water, Glycerin', check: function (r) { return r.score && r.score.score === 10 && r.score.label === 'Excellent'; } },
+    { name: 'Score: single RED short list = low', input: 'Coconut Oil', check: function (r) { return r.score && r.score.score <= 4; } },
+    { name: 'Score: RED at bottom position = moderate penalty', input: 'Water, Glycerin, Dimethicone, Tocopherol, Phenoxyethanol, Silica, Coconut Oil', check: function (r) { return r.score && r.score.score >= 7; } },
+    { name: 'Score: multi-concern accumulated penalty', input: 'Isopropyl Myristate, Coconut Oil, Isopropyl Palmitate, Water, Tocopherol', check: function (r) { return r.score && r.score.score <= 5; } },
+    { name: 'Score: uncertain only = minor penalty', input: 'Water, Tocopherol, Glycerin', check: function (r) { return r.score && r.score.score >= 9; } }
   ];
 
   var passed = 0;
@@ -1075,3 +1142,4 @@ window.runMatcherTests = function () {
 window.analyzeIngredients = analyzeIngredients;
 window.getConcentrationTier = getConcentrationTier;
 window.classifyMatch = classifyMatch;
+window.calculateProductScore = calculateProductScore;

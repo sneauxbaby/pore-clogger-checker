@@ -1129,7 +1129,7 @@ window.PORE_CLOGGER_DB = [
     ],
     category: "other",
     scientificConfidence: "moderate",
-    rationale: "Rated as comedogenic in Fulton 1989 study (score 2–3 at 100%) but with limited corroboration from additional studies. Evidence is suggestive but not conclusive. Oleth-3 is an ethoxylated oleyl alcohol with low HLB; its lipophilic nature contributes to comedogenicity.",
+    rationale: "Rated highly comedogenic (score 5) in Fulton 1989 study. Oleth-3 has only 3 ethylene oxide units, making it strongly lipophilic with high follicle penetration. The low degree of ethoxylation retains the comedogenic character of the parent oleyl alcohol.",
     disputedNote: null,
     references: [
       { label: "Fulton JE (1989). Comedogenicity and irritancy of commonly used ingredients in skin care products. J Soc Cosmet Chem.", url: "https://pubmed.ncbi.nlm.nih.gov/" },
@@ -1197,8 +1197,7 @@ window.PORE_CLOGGER_DB = [
     id: "palmitic-acid",
     canonicalName: "Palmitic Acid",
     aliases: [
-      "Palmitic Acid",
-      "Hexadecyl Alcohol"
+      "Palmitic Acid"
     ],
     category: "fatty_acid",
     scientificConfidence: "moderate",
@@ -1554,7 +1553,6 @@ window.PORE_CLOGGER_DB = [
       "Triticum Aestivum",
       "Triticum Vulgare",
       "Wheat Germ Acid",
-      "Wheat Germ Glyceride"
     ],
     category: "oil_butter",
     scientificConfidence: "moderate",
@@ -1647,6 +1645,370 @@ window.PORE_CLOGGER_DB = [
       { label: "Fulton JE (1989). Comedogenicity and irritancy of commonly used ingredients in skin care products. J Soc Cosmet Chem.", url: "https://pubmed.ncbi.nlm.nih.gov/" },
       { label: "INCIDecoder", url: "https://incidecoder.com/ingredients/isopropyl-linoleate" },
       { label: "SkinSort", url: "https://skinsort.com/ingredients/isopropyl%20linoleate" }
+    ]
+  },
+  // ═══════════════════════════════════════════════════════════════════
+  // New entries (Phase 2)
+  // ═══════════════════════════════════════════════════════════════════
+
+  {
+    id: "cetyl-alcohol",
+    canonicalName: "Cetyl Alcohol",
+    aliases: ["1-Hexadecanol", "Hexadecyl Alcohol", "Palmityl Alcohol", "N-hexadecyl alcohol"],
+    category: "fatty_alcohol",
+    scientificConfidence: "strong",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Cetyl alcohol is a 16-carbon straight-chain fatty alcohol used as an emollient, thickener, and emulsifier in nearly every cream and lotion. Comedogenicity is concentration-dependent and moderate at typical use levels.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "stearyl-alcohol",
+    canonicalName: "Stearyl Alcohol",
+    aliases: ["1-Octadecanol", "Octadecyl Alcohol", "N-octadecyl alcohol"],
+    category: "fatty_alcohol",
+    scientificConfidence: "strong",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Stearyl alcohol is an 18-carbon straight-chain fatty alcohol used as an emollient and thickener. Commonly paired with cetyl alcohol in creams and conditioners; comedogenicity is moderate and concentration-dependent.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "isocetyl-alcohol",
+    canonicalName: "Isocetyl Alcohol",
+    aliases: ["Isohexadecanol", "Isohexadecyl Alcohol", "Isopalmityl Alcohol"],
+    category: "fatty_alcohol",
+    scientificConfidence: "strong",
+    rationale: "Rated highly comedogenic (score 4) in Fulton 1989 study. Isocetyl alcohol is a branched-chain version of cetyl alcohol; branching increases comedogenicity dramatically compared to the straight-chain form. The branched structure allows deeper follicle penetration. Also rated 4 for irritancy.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "stearyl-heptanoate",
+    canonicalName: "Stearyl Heptanoate",
+    aliases: ["Octadecyl Heptanoate"],
+    category: "synthetic_ester",
+    scientificConfidence: "strong",
+    rationale: "Rated highly comedogenic (score 4) in Fulton 1989 study. Stearyl heptanoate is an ester of stearyl alcohol and heptanoic acid; the combination of the C18 fatty alcohol with the medium-chain C7 acid creates a molecule with strong follicle-penetrating properties and low water solubility.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "glyceryl-3-diisostearate",
+    canonicalName: "Glyceryl-3-Diisostearate",
+    aliases: ["Glyceryl Diisostearate"],
+    category: "synthetic_ester",
+    scientificConfidence: "strong",
+    rationale: "Rated highly comedogenic (score 4) in Fulton 1989 study. Distinct from polyglyceryl-3 diisostearate — this is a mono-glyceride diester with lower molecular weight, allowing better follicle penetration. The two branched isostearic acid chains contribute to its high comedogenic potential.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "peg-8-stearate",
+    canonicalName: "PEG-8 Stearate",
+    aliases: ["Polyethylene Glycol 400 Monostearate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 3) in Fulton 1989 study. PEG-8 stearate has only 8 ethylene oxide units, giving it limited water solubility compared to higher-EO variants like PEG-100 stearate (rated 0). The low degree of ethoxylation retains enough lipophilic character to penetrate follicles.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "ppg-5-ceteth-10-phosphate",
+    canonicalName: "PPG-5-Ceteth-10 Phosphate",
+    aliases: [],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated highly comedogenic (score 4) in Fulton 1989 study. This polypropylene glycol cetyl ether phosphate is a complex surfactant with both lipophilic (PPG/cetyl) and hydrophilic (phosphate) portions, giving it an HLB that favors follicle penetration.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "ethylhexyl-pelargonate",
+    canonicalName: "Ethylhexyl Pelargonate",
+    aliases: ["Octyl Pelargonate", "2-Ethylhexyl Nonanoate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Ethylhexyl pelargonate is the ethylhexyl ester of pelargonic acid (C9); similar in structure to ethylhexyl palmitate but with a shorter acid chain. Moderate comedogenicity with notable irritancy.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "propylene-glycol-isostearate",
+    canonicalName: "Propylene Glycol Isostearate",
+    aliases: ["PG Isostearate", "Propylene Glycol Monoisostearate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 3-4) in Morris & Kwan 1983 rabbit ear assay. Propylene glycol isostearate combines propylene glycol with branched isostearic acid, creating an emulsifier with moderate-to-high comedogenic potential due to the branched fatty acid component.",
+    disputedNote: null,
+    references: [
+      { label: "Morris & Kwan 1983", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "dioctyl-malate",
+    canonicalName: "Dioctyl Malate",
+    aliases: ["Dicaprylyl Maleate", "Bis(2-ethylhexyl) Malate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 3) in Fulton 1989 study. Dioctyl malate is a diester of malic acid and 2-ethylhexanol. Its branched alcohol structure and moderate molecular weight contribute to follicle penetration. Often listed as 'Dicaprylyl Maleate' on modern ingredient labels.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "diethylhexyl-succinate",
+    canonicalName: "Diethylhexyl Succinate",
+    aliases: ["Bis(2-ethylhexyl) Succinate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Diethylhexyl succinate is structurally related to dioctyl succinate (score 3) but with a different esterifying alcohol. The slightly different molecular geometry reduces comedogenicity compared to dioctyl succinate.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "pg-dipelargonate",
+    canonicalName: "Propylene Glycol Dipelargonate",
+    aliases: ["PG Dipelargonate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Propylene glycol dipelargonate is a diester of propylene glycol and pelargonic acid (C9). Part of the PG ester family; the medium-chain fatty acid component contributes to its comedogenicity.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "pg-caprylate-caprate",
+    canonicalName: "Propylene Glycol Caprylate/Caprate",
+    aliases: ["PG Dicaprylate/Caprate", "Propylene Glycol Dicaprylate/Caprate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study for the monoester form. PG caprylate/caprate is a common light emollient ester blend in 'oil-free' moisturizers and sunscreens. The comedogenicity varies by degree of esterification — the monoester (score 2) is more comedogenic than the diester (score 1).",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "pentaerythrityl-tetraisostearate",
+    canonicalName: "Pentaerythrityl Tetraisostearate",
+    aliases: ["Pentaerythritol Tetraisostearate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Pentaerythrityl tetraisostearate is a tetra-ester with four branched isostearic acid chains attached to a pentaerythritol core. Despite high molecular weight, the four isostearate branches provide multiple sites for follicle interaction.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "ascorbyl-palmitate",
+    canonicalName: "Ascorbyl Palmitate",
+    aliases: ["Ascorbyl Monopalmitate", "Vitamin C Palmitate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Ascorbyl palmitate is a fat-soluble vitamin C ester formed by combining ascorbic acid with palmitic acid. The palmitic acid moiety contributes to its comedogenic potential, though the overall rating is moderate.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "capric-acid",
+    canonicalName: "Capric Acid",
+    aliases: ["Decanoic Acid", "Decylic Acid"],
+    category: "fatty_acid",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Capric acid is a 10-carbon medium-chain saturated fatty acid. It falls between caprylic acid (C8, score 1) and lauric acid (C12, score 4) on Fulton's comedogenicity spectrum, supporting Fulton's finding that medium-chain fatty acids are more comedogenic than short- or long-chain variants.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "arachidic-acid",
+    canonicalName: "Arachidic Acid",
+    aliases: ["Eicosanoic Acid", "Icosanoic Acid", "Arachic Acid"],
+    category: "fatty_acid",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Arachidic acid is a 20-carbon long-chain saturated fatty acid. Its lower comedogenicity compared to myristic (C14, 3) and lauric (C12, 4) acids illustrates Fulton's finding that comedogenicity decreases as chain length extends beyond C18.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "oleth-10",
+    canonicalName: "Oleth-10",
+    aliases: ["PEG-10 Oleyl Ether"],
+    category: "other",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Oleth-10 has 10 ethylene oxide units compared to Oleth-3 (score 5) and Oleth-5 (score 3), demonstrating that increased ethoxylation progressively reduces comedogenicity.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "oleth-3-phosphate",
+    canonicalName: "Oleth-3 Phosphate",
+    aliases: [],
+    category: "other",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Oleth-3 phosphate is the phosphate ester of Oleth-3. The addition of the charged phosphate group reduces comedogenicity compared to the parent Oleth-3 (score 5), supporting Fulton's finding that adding charged groups reduces comedogenic potential.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "steareth-2",
+    canonicalName: "Steareth-2",
+    aliases: ["PEG-2 Stearyl Ether"],
+    category: "other",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Steareth-2 has only 2 ethylene oxide units, making it substantially more lipophilic than Steareth-10 or Steareth-20. Its low HLB favors oil-phase partitioning and follicle penetration.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "steareth-20",
+    canonicalName: "Steareth-20",
+    aliases: ["PEG-20 Stearyl Ether"],
+    category: "other",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Steareth-20 has 20 ethylene oxide units, making it more water-soluble than Steareth-2 or Steareth-10. Despite identical comedogenicity scores in Fulton 1989, its higher HLB reduces practical comedogenic risk at formulation concentrations.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "sorbitan-laurate",
+    canonicalName: "Sorbitan Laurate",
+    aliases: ["Sorbitan Monolaurate", "Span 20"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 1-2) in Fulton 1989 study. Sorbitan laurate is a sorbitan ester of lauric acid. Part of the sorbitan ester family alongside sorbitan oleate (score 3). The sugar-based sorbitan core partially offsets the lauric acid's comedogenicity.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "sorbitan-isostearate",
+    canonicalName: "Sorbitan Isostearate",
+    aliases: ["Sorbitan Monoisostearate"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 1-2) in Fulton 1989 study. Sorbitan isostearate combines the sorbitan sugar core with branched isostearic acid. The branched structure of isostearic acid contributes to its comedogenicity, though the sugar component provides some mitigation.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "laneth-10",
+    canonicalName: "Laneth-10",
+    aliases: ["PEG-10 Lanolin", "Ethoxylated Lanolin (10 EO)"],
+    category: "synthetic_ester",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Laneth-10 is an ethoxylated lanolin with 10 ethylene oxide units. Fulton noted that moderately ethoxylated lanolin derivatives (like laneth-10) were more comedogenic than both anhydrous lanolin (0-1) and highly ethoxylated variants like PEG-75 lanolin (0).",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "anhydrous-lanolin",
+    canonicalName: "Anhydrous Lanolin",
+    aliases: ["Lanolin", "Wool Fat", "Wool Wax", "Adeps Lanae"],
+    category: "oil_butter",
+    scientificConfidence: "weak",
+    rationale: "Rated minimally comedogenic (score 0-1) in Fulton 1989 study. Anhydrous lanolin is the purified, unmodified wax from sheep's wool. Notably, while unmodified lanolin has low comedogenicity, its derivatives — acetylated lanolin alcohol (4-5), PEG-16 lanolin (4), and lanolic acid (4) — are highly comedogenic. This demonstrates how chemical modification can dramatically increase comedogenic potential.",
+    disputedNote: "Rated 0-1 in published comedogenicity studies. The concern likely stems from confusion with highly comedogenic lanolin derivatives (acetylated lanolin alcohol, PEG-16 lanolin) rather than the base material itself. Fulton 1989 found that unmodified lanolin was essentially non-comedogenic.",
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "lanolin-alcohol",
+    canonicalName: "Lanolin Alcohol",
+    aliases: ["Wool Alcohol", "Alcool Lanae"],
+    category: "fatty_alcohol",
+    scientificConfidence: "weak",
+    rationale: "Rated variably comedogenic (score 0-2) in Fulton 1989 study. Lanolin alcohol is the alcohol fraction separated from whole lanolin. It is less comedogenic than acetylated lanolin alcohol (score 4-5) but more variable than anhydrous lanolin (0-1). The variability may reflect differences in refinement and composition between batches.",
+    disputedNote: "Variable comedogenicity ratings (0-2) may reflect differences in refinement and composition between batches. Less comedogenic than acetylated lanolin alcohol (4-5). The alcohol fraction is more comedogenic than the whole lanolin but far less than the acetylated derivative.",
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "tea-stearate",
+    canonicalName: "TEA-Stearate",
+    aliases: ["Triethanolamine Stearate", "Stearic Acid TEA", "TEA Stearate"],
+    category: "other",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 3) in Fulton 1989 study. TEA-stearate is the triethanolamine soap of stearic acid, used as an anionic emulsifier. The combination of stearic acid (rated 2-3) with TEA (rated 2) creates an emulsifier with moderate comedogenic potential.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "wheat-germ-glyceride",
+    canonicalName: "Wheat Germ Glyceride",
+    aliases: ["Triticum Vulgare Germ Glyceride"],
+    category: "oil_butter",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 3) in Fulton 1989 study. Wheat germ glyceride is the glyceride fraction of wheat germ oil, concentrated in the lipid components most responsible for comedogenicity. It is rated slightly higher than whole wheat germ oil (score 2-3) in Fulton's data.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "grape-seed-oil",
+    canonicalName: "Grape Seed Oil",
+    aliases: ["Vitis Vinifera Seed Oil", "Grape Oil"],
+    category: "oil_butter",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2-3) in Morris & Kwan 1983 rabbit ear assay. Grape seed oil is rich in linoleic acid (approximately 70%) and is frequently recommended for oily and acne-prone skin due to its light texture, yet it shows moderate comedogenicity in testing. This paradox highlights the difference between perceived lightness and actual comedogenic potential.",
+    disputedNote: null,
+    references: [
+      { label: "Morris & Kwan 1983", url: "https://pubmed.ncbi.nlm.nih.gov/" }
+    ]
+  },
+  {
+    id: "peach-kernel-oil",
+    canonicalName: "Peach Kernel Oil",
+    aliases: ["Prunus Persica Kernel Oil", "Peach Oil"],
+    category: "oil_butter",
+    scientificConfidence: "moderate",
+    rationale: "Rated comedogenic (score 2) in Fulton 1989 study. Peach kernel oil is similar in composition to apricot kernel oil (score 2), with a moderate oleic acid content (approximately 55-65%). Commonly used in natural facial oils and serums.",
+    disputedNote: null,
+    references: [
+      { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
     ]
   }
 ];
