@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pore-Clogging Ingredient Checker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <!-- HEADER -->
+    <header class="app-header">
+      <h1>Pore-Clogging Ingredient Checker</h1>
+      <p class="subtitle">Paste a product's ingredient list to check for pore-clogging (comedogenic) ingredients. Smart matching handles synonyms, misspellings, and naming variations.</p>
+    </header>
+
+    <!-- INPUT SECTION -->
+    <section class="input-section">
+      <label for="ingredient-input" class="sr-only">Paste ingredient list</label>
+      <textarea
+        id="ingredient-input"
+        placeholder="Paste the full ingredient list EXACTLY as it appears on the product label, preserving the order. Ingredients at the top have higher concentrations.&#10;&#10;Example: Water, Isopropyl Myristate, Glycerin, Cetearyl Alcohol, Dimethicone..."
+        rows="10"
+        aria-describedby="input-help"
+      ></textarea>
+      <p id="input-help" class="input-help">Commas, line breaks, and bullet points all work. Slashes are treated as INCI synonyms.</p>
+      <p id="input-message" class="input-message" role="alert"></p>
+
+      <div class="input-controls">
+        <label class="checkbox-label">
+          <input type="checkbox" id="order-checkbox" checked>
+          <span>Ingredients are in label order (first = highest concentration)</span>
+        </label>
+
+        <div class="button-group">
+          <button id="analyze-btn" class="btn btn-primary">Analyze Ingredients</button>
+          <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS PANEL (hidden initially) -->
+    <section id="results" class="results-section" style="display: none;" role="region" aria-live="polite" aria-label="Analysis results">
+      <!-- Stale overlay -->
+      <div id="stale-overlay" class="stale-overlay" style="display: none;">
+        <p id="stale-message" class="stale-message"></p>
+      </div>
+
+      <!-- Summary bar (sticky) -->
+      <div id="summary-bar" class="summary-bar">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Scientific disclaimer -->
+      <div class="disclaimer-banner" role="alert">
+        <strong>Important to know:</strong> Pore-clogging (comedogenicity) ratings come primarily from rabbit ear tests — an animal model more sensitive than human skin. An ingredient flagged here doesn't guarantee it will clog YOUR pores. Ratings vary with concentration, and a finished product may behave differently than its individual ingredients. Use this as a starting point, not a final verdict. When in doubt, patch test on a small area first.
+      </div>
+
+      <!-- Copy All button -->
+      <div class="results-actions">
+        <button id="copy-all-btn" class="btn btn-secondary">📋 Copy all results</button>
+      </div>
+
+      <!-- Concerns list -->
+      <div id="concerns-list" class="concerns-list">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Safe list (collapsible) -->
+      <div id="safe-list" class="safe-list-section">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- EMPTY STATE (shown before first analysis) -->
+    <div id="empty-state" class="empty-state">
+      <p>Paste an ingredient list above and click <strong>Analyze Ingredients</strong> to check for pore-cloggers.</p>
+    </div>
+  </main>
+
+  <!-- SCRIPTS — MUST be in this order -->
+  <script src="data.js"></script>
+  <script src="matcher.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

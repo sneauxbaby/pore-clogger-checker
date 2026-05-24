@@ -1,0 +1,812 @@
+/* ==========================================================================
+   Pore-Clogging Ingredient Checker — Stylesheet
+   Design system: warm, clean, modern, responsive, accessible.
+   ========================================================================== */
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #fafaf9;
+  color: #1c1917;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── Layout Container ──────────────────────────────────────────────────── */
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .container {
+    padding: 2rem;
+  }
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+
+.app-header {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e7e5e4;
+}
+
+.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #1c1917;
+  margin-bottom: 0.5rem;
+}
+
+.app-header .subtitle {
+  font-size: 1rem;
+  color: #78716c;
+  line-height: 1.55;
+  max-width: 560px;
+}
+
+@media (min-width: 720px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* ─── Input Section ─────────────────────────────────────────────────────── */
+
+.input-section {
+  margin-bottom: 1.5rem;
+}
+
+.input-section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1c1917;
+}
+
+#ingredient-input {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  padding: 0.875rem 1rem;
+  font-family: "SF Mono", Monaco, monospace;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #1c1917;
+  background-color: #ffffff;
+  border: 1.5px solid #e7e5e4;
+  border-radius: 8px;
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 0;
+}
+
+#ingredient-input::placeholder {
+  color: #a8a29e;
+}
+
+#ingredient-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Inline message below textarea */
+.input-message {
+  font-size: 0.875rem;
+  color: #dc2626;
+  margin-top: 0.5rem;
+  min-height: 1.25em;
+  transition: opacity 0.2s;
+}
+
+.input-message:empty {
+  opacity: 0;
+}
+
+/* Input controls (checkbox + buttons) */
+.input-controls {
+  margin: 1rem 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: #1c1917;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: #1c1917;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Button row */
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  flex: 1;
+  background-color: #1c1917;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #292524;
+}
+
+.btn-primary:active {
+  background-color: #0c0a09;
+}
+
+.btn-secondary {
+  background-color: #e7e5e4;
+  color: #1c1917;
+}
+
+.btn-secondary:hover {
+  background-color: #d6d3d1;
+}
+
+.btn-secondary:active {
+  background-color: #c9c6c3;
+}
+
+@media (max-width: 480px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ─── Results Panel ─────────────────────────────────────────────────────── */
+
+#results {
+  scroll-margin-top: 5rem;
+}
+
+/* ─── Summary Bar (sticky) ──────────────────────────────────────────────── */
+
+.summary-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.count-badge.concern {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.count-badge.uncertain {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.count-badge.safe {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* ─── Disclaimer Banner ─────────────────────────────────────────────────── */
+
+.disclaimer-banner {
+  background-color: #fef3c7;
+  border-left: 4px solid #92400e;
+  padding: 0.875rem 1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.875rem;
+  color: #78350f;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.disclaimer-banner strong {
+  color: #451a03;
+}
+
+/* ─── Concern Items ──────────────────────────────────────────────────────── */
+
+.result-item {
+  background-color: #ffffff;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+/* Left border color matches tier */
+.result-item.likely {
+  border-left: 4px solid #dc2626;
+}
+
+.result-item.possible {
+  border-left: 4px solid #f59e0b;
+}
+
+.result-item.uncertain {
+  border-left: 4px solid #3b82f6;
+}
+
+.result-item.safe {
+  border-left: 4px solid #16a34a;
+}
+
+/* Result header (clickable row) */
+.result-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  color: #1c1917;
+  transition: background-color 0.15s ease;
+}
+
+.result-header:hover {
+  background-color: #fafaf9;
+}
+
+.result-header:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+/* Tier badge */
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tier-badge.red {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.tier-badge.yellow {
+  background-color: #f59e0b;
+  color: #1c1917;
+}
+
+.tier-badge.blue {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.tier-badge.green {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+/* Ingredient name in monospace */
+.ingredient-name {
+  font-family: "SF Mono", Monaco, monospace;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1c1917;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Position badge */
+.position-badge {
+  font-size: 0.8125rem;
+  color: #78716c;
+  white-space: nowrap;
+}
+
+/* Match info */
+.match-info {
+  font-size: 0.8125rem;
+  color: #78716c;
+  white-space: nowrap;
+}
+
+/* Expand/collapse indicator */
+.expand-icon {
+  font-size: 0.75rem;
+  color: #78716c;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.result-item.expanded .expand-icon {
+  transform: rotate(90deg);
+}
+
+/* ─── Dossier Panel ─────────────────────────────────────────────────────── */
+
+.dossier-content {
+  display: none;
+  border-top: 1px solid #e7e5e4;
+  padding: 1rem;
+  background-color: #fafaf9;
+}
+
+.result-item.expanded .dossier-content {
+  display: block;
+}
+
+.concentration-note {
+  font-size: 0.875rem;
+  color: #1c1917;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.dossier-details {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* Category badge */
+.category-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  background-color: #f5f5f4;
+  color: #57534e;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Rationale text */
+.rationale {
+  color: #1c1917;
+  margin-bottom: 0.5rem;
+}
+
+/* Disputed note */
+.disputed-note {
+  background-color: #fef2f2;
+  border-left: 3px solid #ef4444;
+  padding: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.8125rem;
+  color: #7f1d1d;
+  line-height: 1.45;
+}
+
+/* ─── References ────────────────────────────────────────────────────────── */
+
+.references {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.ref-link {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  background-color: #e7e5e4;
+  color: #1c1917;
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ref-link:hover {
+  background-color: #d6d3d1;
+}
+
+.ref-link:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ─── Copy Dossier Button ───────────────────────────────────────────────── */
+
+.copy-dossier-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background-color: #f5f5f4;
+  border: 1px solid #e7e5e4;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #57534e;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.copy-dossier-btn:hover {
+  background-color: #e7e5e4;
+  border-color: #d6d3d1;
+}
+
+.copy-dossier-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ─── Safe List ─────────────────────────────────────────────────────────── */
+
+#safe-list {
+  margin-top: 1rem;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.safe-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: none;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1c1917;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.safe-toggle:hover {
+  background-color: #f5f5f4;
+}
+
+.safe-toggle:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+.safe-ingredients {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e7e5e4;
+  background-color: #fafaf9;
+  font-size: 0.875rem;
+  color: #57534e;
+  line-height: 1.65;
+}
+
+/* ─── Empty State ───────────────────────────────────────────────────────── */
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--color-muted, #78716c);
+  font-size: 1.05rem;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #78716c;
+  font-size: 0.9375rem;
+  background-color: #ffffff;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+}
+
+/* ─── Copy All Button ───────────────────────────────────────────────────── */
+
+.results-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#copy-all-btn {
+  font-size: 0.8125rem;
+}
+
+/* ─── Stale Overlay ──────────────────────────────────────────────────────── */
+
+.stale-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(250, 250, 249, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border-radius: 8px;
+}
+
+.stale-message {
+  background-color: #ffffff;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  max-width: 90%;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #57534e;
+  line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.results-section {
+  position: relative;
+}
+
+/* ─── Screen Reader Only ─────────────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Focus Visible ─────────────────────────────────────────────────────── */
+
+*:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Print Styles ───────────────────────────────────────────────────────── */
+
+@media print {
+  body {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 12pt;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0.5in;
+  }
+
+  /* Hide interactive elements */
+  #ingredient-input,
+  .btn,
+  .input-controls,
+  .button-group,
+  .stale-overlay,
+  .copy-dossier-btn,
+  #copy-all-btn,
+  .results-actions,
+  .input-section,
+  .input-message {
+    display: none !important;
+  }
+
+  /* Remove sticky positioning */
+  .summary-bar {
+    position: static;
+    box-shadow: none;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    page-break-after: avoid;
+  }
+
+  .summary-bar .count-badge {
+    border: 1px solid #000000;
+    color: #000000;
+    background-color: #ffffff;
+  }
+
+  /* Force dossier panels open */
+  .dossier-content {
+    display: block !important;
+  }
+
+  .result-item.expanded .expand-icon {
+    transform: rotate(90deg);
+  }
+
+  /* Force safe list open */
+  .safe-ingredients {
+    display: block !important;
+  }
+
+  .safe-toggle {
+    display: none;
+  }
+
+  /* Black text on white */
+  .app-header,
+  .result-item,
+  .result-header,
+  .dossier-content,
+  .dossier-details,
+  .safe-toggle,
+  .safe-ingredients {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Remove shadows */
+  .summary-bar,
+  .stale-message,
+  .result-item {
+    box-shadow: none !important;
+  }
+
+  /* Replace background colors with borders for tier indication */
+  .result-item.likely {
+    border-left: 4px solid #000000;
+  }
+
+  .result-item.possible {
+    border-left: 4px solid #000000;
+    border-left-style: dashed;
+  }
+
+  .result-item.uncertain {
+    border-left: 4px solid #000000;
+    border-left-style: dotted;
+  }
+
+  .tier-badge {
+    border: 1px solid #000000;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Avoid breaking inside result items */
+  .result-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Show URLs after links */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+
+  .references {
+    display: block;
+  }
+
+  .ref-link {
+    display: block;
+    border: none;
+    background: none;
+    padding: 0.15rem 0;
+    color: #000000;
+    text-decoration: underline;
+  }
+
+  /* Ensure readable disclaimer */
+  .disclaimer-banner {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-left-width: 4px;
+    color: #000000;
+  }
+
+  .disclaimer-banner strong {
+    color: #000000;
+  }
+
+  .disputed-note {
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+  }
+}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Validator — Pore-Clogger Checker</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1.5rem; color: #1c1917; background: #fafaf9; }
+    h1 { font-size: 1.5rem; }
+    .pass { color: #16a34a; }
+    .fail { color: #dc2626; }
+    .warn { color: #f59e0b; }
+    .result { margin: 0.5rem 0; padding: 0.5rem; border-left: 3px solid #e7e5e4; }
+    .result.pass { border-left-color: #16a34a; }
+    .result.fail { border-left-color: #dc2626; }
+    .result.warn { border-left-color: #f59e0b; }
+    .summary { font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; }
+    .breakdown { margin: 1rem 0; }
+    .breakdown h2 { font-size: 1.1rem; margin: 1rem 0 0.25rem; }
+    .breakdown table { width: 100%; border-collapse: collapse; }
+    .breakdown th, .breakdown td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid #e7e5e4; }
+    .breakdown th { font-weight: 600; }
+    .breakdown .bar-cell { width: 100%; }
+    .breakdown .bar-track { background: #e7e5e4; border-radius: 4px; overflow: hidden; height: 1rem; min-width: 120px; }
+    .breakdown .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; transition: width 0.3s ease; }
+    pre { background: #fff; padding: 0.75rem; border: 1px solid #e7e5e4; border-radius: 4px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Database Validator</h1>
+  <p>Validating <code>data.js</code> against the ingredient database schema...</p>
+
+  <div id="results"></div>
+
+  <script src="data.js"></script>
+  <script>
+    (function() {
+      const results = [];
+      let passed = 0, failed = 0, warnings = 0;
+
+      function addResult(type, message) {
+        results.push({ type, message });
+        if (type === 'pass') passed++;
+        else if (type === 'fail') failed++;
+        else warnings++;
+      }
+
+      // CHECK 1: Database exists and is an array
+      if (!window.PORE_CLOGGER_DB || !Array.isArray(window.PORE_CLOGGER_DB)) {
+        addResult('fail', 'PORE_CLOGGER_DB is not defined or not an array');
+        renderResults();
+        throw new Error('Cannot continue');
+      }
+      addResult('pass', 'Database loaded: ' + window.PORE_CLOGGER_DB.length + ' ingredients');
+
+      // CHECK 2: COMMON_WORDS exists
+      if (window.COMMON_WORDS && Array.isArray(window.COMMON_WORDS)) {
+        addResult('pass', 'COMMON_WORDS loaded: ' + window.COMMON_WORDS.length + ' words');
+      } else {
+        addResult('fail', 'COMMON_WORDS is not defined or not an array');
+      }
+
+      const db = window.PORE_CLOGGER_DB;
+      const VALID_CATEGORIES = ["oil_butter", "algae_seaweed", "synthetic_ester", "fatty_acid", "fatty_alcohol", "sulfate_surfactant", "dye_pigment", "salt_mineral", "botanical_extract", "silicone", "other"];
+      const VALID_CONFIDENCE = ["strong", "moderate", "weak", "disputed"];
+      const PLACEHOLDER_PATTERNS = [
+        /\[X\]/i, /\[TODO\]/i, /\[fill[ _-]?(in|me)?\]/i,
+        /\[mechanism note if known\]/i, /\[specific limitation\]/i,
+        /\[specific contradiction\]/i, /\[insert\]/i, /\[TBD\]/i,
+        /\[placeholder\]/i, /\[describe\]/i, /\[add\]/i
+      ];
+
+      const seenIds = new Set();
+      const allAliases = new Map(); // alias text → { entryId, entryName }
+      const confidenceCounts = { strong: 0, moderate: 0, weak: 0, disputed: 0 };
+      const categoryCounts = {};
+      let totalAliases = 0;
+
+      for (const entry of db) {
+        const prefix = '[' + entry.id + ']';
+
+        // Required fields
+        for (const field of ['id', 'canonicalName', 'aliases', 'category', 'scientificConfidence', 'rationale', 'disputedNote', 'references']) {
+          if (entry[field] === undefined) {
+            addResult('fail', prefix + ' Missing required field: ' + field);
+          }
+        }
+
+        // Unique ID
+        if (seenIds.has(entry.id)) {
+          addResult('fail', prefix + ' Duplicate ID');
+        }
+        seenIds.add(entry.id);
+
+        // --- Additional check: canonicalName is not empty ---
+        if (entry.canonicalName !== undefined) {
+          if (typeof entry.canonicalName !== 'string' || entry.canonicalName.trim() === '') {
+            addResult('fail', prefix + ' canonicalName is empty or not a string');
+          }
+        }
+
+        // Valid category
+        if (!VALID_CATEGORIES.includes(entry.category)) {
+          addResult('fail', prefix + ' Invalid category: "' + entry.category + '"');
+        } else {
+          // Track category counts
+          categoryCounts[entry.category] = (categoryCounts[entry.category] || 0) + 1;
+        }
+
+        // Valid scientific confidence
+        if (!VALID_CONFIDENCE.includes(entry.scientificConfidence)) {
+          addResult('fail', prefix + ' Invalid scientificConfidence: "' + entry.scientificConfidence + '"');
+        } else {
+          // Track confidence counts
+          confidenceCounts[entry.scientificConfidence]++;
+        }
+
+        // Aliases is an array with at least 1 entry
+        if (!Array.isArray(entry.aliases) || entry.aliases.length === 0) {
+          addResult('fail', prefix + ' aliases must be a non-empty array');
+        }
+
+        // Check for placeholder text
+        const textFields = [entry.rationale, entry.disputedNote].filter(Boolean);
+        for (let i = 0; i < textFields.length; i++) {
+          const field = textFields[i];
+          for (let j = 0; j < PLACEHOLDER_PATTERNS.length; j++) {
+            const pattern = PLACEHOLDER_PATTERNS[j];
+            if (pattern.test(field)) {
+              addResult('fail', prefix + ' Unfilled placeholder "' + pattern + '" found in text');
+              break;
+            }
+          }
+        }
+
+        // Non-empty rationale
+        if (!entry.rationale || entry.rationale.trim() === '') {
+          addResult('fail', prefix + ' Empty rationale');
+        }
+
+        // References is an array
+        if (!Array.isArray(entry.references)) {
+          addResult('fail', prefix + ' references must be an array');
+        }
+
+        // Strong/moderate: must have at least 1 reference
+        if ((entry.scientificConfidence === 'strong' || entry.scientificConfidence === 'moderate') && entry.references.length === 0) {
+          addResult('fail', prefix + ' ' + entry.scientificConfidence + ' confidence requires at least 1 reference');
+        }
+
+        // Weak/disputed: must have non-null disputedNote
+        if ((entry.scientificConfidence === 'weak' || entry.scientificConfidence === 'disputed') && (!entry.disputedNote || entry.disputedNote.trim() === '')) {
+          addResult('fail', prefix + ' ' + entry.scientificConfidence + ' confidence requires non-empty disputedNote');
+        }
+
+        // References have label and url
+        if (Array.isArray(entry.references)) {
+          for (let r = 0; r < entry.references.length; r++) {
+            const ref = entry.references[r];
+            if (!ref.label || !ref.url) {
+              addResult('fail', prefix + ' Reference missing label or url');
+            }
+            if (ref.url && !ref.url.startsWith('https://')) {
+              addResult('warn', prefix + ' Reference URL does not start with https://: ' + ref.url);
+            }
+          }
+        }
+
+        // --- Additional check: canonicalName appears in aliases array ---
+        if (Array.isArray(entry.aliases) && entry.canonicalName && entry.canonicalName.trim() !== '') {
+          const canonLower = entry.canonicalName.toLowerCase().trim();
+          const found = entry.aliases.some(function(a) {
+            return a.toLowerCase().trim() === canonLower;
+          });
+          if (!found) {
+            addResult('warn', prefix + ' canonicalName "' + entry.canonicalName + '" does not appear in its own aliases array — it will not be matchable by its canonical name');
+          }
+        }
+
+        // Track aliases for collision detection
+        if (Array.isArray(entry.aliases)) {
+          totalAliases += entry.aliases.length;
+          for (let a = 0; a < entry.aliases.length; a++) {
+            const alias = entry.aliases[a];
+            const key = alias.toLowerCase().trim();
+            if (allAliases.has(key)) {
+              const other = allAliases.get(key);
+              addResult('warn', 'Alias collision: "' + alias + '" used by both "' + entry.canonicalName + '" (' + entry.id + ') and "' + other.entryName + '" (' + other.entryId + ')');
+            } else {
+              allAliases.set(key, { entryId: entry.id, entryName: entry.canonicalName });
+            }
+          }
+        }
+      }
+
+      // --- Additional: total aliases pass ---
+      addResult('pass', 'Total aliases across all entries: ' + totalAliases);
+
+      renderResults();
+
+      function renderResults() {
+        const container = document.getElementById('results');
+        let html = '';
+
+        // Summary
+        html += '<div class="summary">';
+        html += '<span class="pass">✅ ' + passed + ' passed</span> · ';
+        if (failed > 0) html += '<span class="fail">❌ ' + failed + ' failed</span> · ';
+        if (warnings > 0) html += '<span class="warn">⚠️ ' + warnings + ' warnings</span> · ';
+        html += '<span>' + db.length + ' ingredients checked</span>';
+        html += '</div>';
+
+        // Overall verdict
+        if (failed === 0 && warnings === 0) {
+          html += '<p class="pass" style="font-size: 1.1rem;">🎉 All checks passed! The database is clean.</p>';
+        } else if (failed === 0) {
+          html += '<p class="warn" style="font-size: 1.1rem;">⚠️ Database is valid but has warnings.</p>';
+        } else {
+          html += '<p class="fail" style="font-size: 1.1rem;">❌ Database has ' + failed + ' errors that must be fixed.</p>';
+        }
+
+        // --- Additional: Breakdowns ---
+        html += '<div class="breakdown">';
+        html += '<h2>📊 Breakdown by Scientific Confidence</h2>';
+        html += '<table>';
+        const maxConf = Math.max(1, confidenceCounts.strong + confidenceCounts.moderate + confidenceCounts.weak + confidenceCounts.disputed);
+        for (const tier of VALID_CONFIDENCE) {
+          const count = confidenceCounts[tier] || 0;
+          const pct = Math.round((count / maxConf) * 100);
+          html += '<tr>';
+          html += '<td>' + tier + '</td>';
+          html += '<td>' + count + '</td>';
+          html += '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div></td>';
+          html += '</tr>';
+        }
+        html += '</table>';
+
+        html += '<h2>📊 Breakdown by Category</h2>';
+        html += '<table>';
+        const sortedCategories = Object.entries(categoryCounts).sort(function(a, b) { return b[1] - a[1]; });
+        const maxCat = Math.max(1, db.length);
+        for (let c = 0; c < sortedCategories.length; c++) {
+          const cat = sortedCategories[c][0];
+          const count = sortedCategories[c][1];
+          const pct = Math.round((count / maxCat) * 100);
+          html += '<tr>';
+          html += '<td>' + cat + '</td>';
+          html += '<td>' + count + '</td>';
+          html += '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div></td>';
+          html += '</tr>';
+        }
+        html += '</table>';
+        html += '</div>';
+
+        // Detailed results
+        for (let i = 0; i < results.length; i++) {
+          const r = results[i];
+          html += '<div class="result ' + r.type + '">' + (r.type === 'fail' ? '❌' : r.type === 'warn' ? '⚠️' : '✅') + ' ' + r.message + '</div>';
+        }
+
+        container.innerHTML = html;
+      }
+    })();
+  </script>
+</body>
+</html>
