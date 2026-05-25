@@ -420,7 +420,9 @@ window.PORE_CLOGGER_DB = [
     references: [
       { label: "INCIDecoder", url: "https://incidecoder.com/ingredients/coal-tar" },
       { label: "SkinSort", url: "https://skinsort.com/ingredients/coal%20tar" }
-    ]
+    ],
+    irritantPotential: "high",
+    irritantNote: "Can cause contact dermatitis and irritation in sensitive individuals. Historically used as an acne treatment, but modern formulations often cause more irritation than benefit."
   },
   {
     id: "colloidal-sulfur",
@@ -939,7 +941,9 @@ window.PORE_CLOGGER_DB = [
       { label: "Fulton JE (1989). Comedogenicity and irritancy of commonly used ingredients in skin care products. J Soc Cosmet Chem.", url: "https://pubmed.ncbi.nlm.nih.gov/" },
       { label: "INCIDecoder", url: "https://incidecoder.com/ingredients/lauryl-sulfate" },
       { label: "SkinSort", url: "https://skinsort.com/ingredients/lauryl%20sulfate" }
-    ]
+    ],
+    irritantPotential: "high",
+    irritantNote: "Strong anionic surfactant. Similar to SLS — strips skin barrier lipids, causing dryness and irritation that can trigger acne-like eruptions."
   },
   {
     id: "mango-butter",
@@ -1386,7 +1390,9 @@ window.PORE_CLOGGER_DB = [
       { label: "Draelos ZD, DiNardo JC (2006). A re-evaluation of the comedogenicity concept. J Am Acad Dermatol.", url: "https://pubmed.ncbi.nlm.nih.gov/16635664/" },
       { label: "INCIDecoder", url: "https://incidecoder.com/ingredients/sodium-laureth-sulfate" },
       { label: "SkinSort", url: "https://skinsort.com/ingredients/sodium%20laureth%20sulfate" }
-    ]
+    ],
+    irritantPotential: "high",
+    irritantNote: "Surfactant that strips natural oils from the skin barrier. Can cause tightness, dryness, and irritation that triggers compensatory oil overproduction. Mechanism is barrier disruption, not comedogenesis."
   },
   {
     id: "sodium-chloride",
@@ -1577,7 +1583,9 @@ window.PORE_CLOGGER_DB = [
     references: [
       { label: "INCIDecoder", url: "https://incidecoder.com/ingredients/xylene" },
       { label: "SkinSort", url: "https://skinsort.com/ingredients/xylene" }
-    ]
+    ],
+    irritantPotential: "high",
+    irritantNote: "Industrial solvent. Irritating to skin and mucous membranes. Rarely found in modern cosmetics."
   },
   {
     id: "beef-tallow",
@@ -2010,6 +2018,155 @@ window.PORE_CLOGGER_DB = [
     references: [
       { label: "Fulton 1989", url: "https://pubmed.ncbi.nlm.nih.gov/" }
     ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Irritant-only entries
+  // ═══════════════════════════════════════════════════════════════════
+
+  {
+    id: "sd-alcohol",
+    canonicalName: "SD Alcohol / Alcohol Denat.",
+    aliases: ["Alcohol Denat.", "SD Alcohol", "Ethanol", "Denatured Alcohol", "SD Alcohol 40"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Strips the skin's natural oils and disrupts the moisture barrier. This can trigger compensatory oil overproduction — your skin produces MORE oil to compensate, leading to breakouts. Also dries out the skin surface, making it more vulnerable to bacteria.",
+    disputedNote: null,
+    references: [{ label: "Draelos 2006", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "high",
+    irritantNote: "Strips the skin's natural oils and disrupts the moisture barrier. This can trigger compensatory oil overproduction — your skin produces MORE oil to compensate, leading to breakouts. Also dries out the skin surface, making it more vulnerable to bacteria."
+  },
+  {
+    id: "witch-hazel",
+    canonicalName: "Witch Hazel",
+    aliases: ["Hamamelis Virginiana", "Witch Hazel Extract", "Witch Hazel Water"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Astringent that can be drying and irritating, especially in alcohol-based formulations. The tannin content can strip oils and disrupt the skin barrier. Alcohol-free formulations are less irritating but can still be sensitizing.",
+    disputedNote: null,
+    references: [{ label: "CIR Expert Panel", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Astringent that can be drying and irritating, especially in alcohol-based formulations. The tannin content can strip oils and disrupt the skin barrier. Alcohol-free formulations are less irritating but can still be sensitizing."
+  },
+  {
+    id: "menthol",
+    canonicalName: "Menthol",
+    aliases: ["Peppermint Camphor", "Menthol Crystals"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Cooling sensation comes from activation of cold receptors — but this can trigger inflammation in sensitive or acne-prone skin. The cooling effect masks underlying irritation. Can increase transepidermal water loss.",
+    disputedNote: null,
+    references: [{ label: "Contact Dermatitis Research", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Cooling sensation comes from activation of cold receptors — but this can trigger inflammation in sensitive or acne-prone skin. The cooling effect masks underlying irritation."
+  },
+  {
+    id: "fragrance",
+    canonicalName: "Fragrance / Parfum",
+    aliases: ["Parfum", "Fragrance", "Perfume", "Aroma"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "The number one cause of cosmetic contact dermatitis and skin irritation. 'Fragrance' can legally hide hundreds of undisclosed chemicals. Irritation from fragrance can trigger inflammation that manifests as breakouts, even without true comedogenesis.",
+    disputedNote: null,
+    references: [{ label: "EU CosIng Database", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "high",
+    irritantNote: "The number one cause of cosmetic contact dermatitis and skin irritation. 'Fragrance' can legally hide hundreds of undisclosed chemicals."
+  },
+  {
+    id: "peppermint-oil",
+    canonicalName: "Peppermint Oil",
+    aliases: ["Mentha Piperita Oil", "Peppermint Essential Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Essential oil that contains menthol and other volatile compounds. While it has antimicrobial properties, the high concentration of terpenes can be intensely irritating to sensitive skin. The cooling sensation masks the irritation.",
+    disputedNote: null,
+    references: [{ label: "Essential Oil Safety", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Contains menthol and other volatile compounds. While antimicrobial, terpenes can be intensely irritating to sensitive skin. The cooling sensation masks the irritation."
+  },
+  {
+    id: "lavender-oil",
+    canonicalName: "Lavender Oil",
+    aliases: ["Lavandula Angustifolia Oil", "Lavender Essential Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Contains linalool and linalyl acetate — both common contact allergens. Despite its reputation as soothing, lavender oil can cause irritation and sensitization, especially in leave-on products.",
+    disputedNote: null,
+    references: [{ label: "EU Allergen Regulation", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Contains linalool and linalyl acetate — both common contact allergens. Despite its reputation as soothing, lavender oil can cause irritation and sensitization, especially in leave-on products."
+  },
+  {
+    id: "eucalyptus-oil",
+    canonicalName: "Eucalyptus Oil",
+    aliases: ["Eucalyptus Globulus Oil", "Eucalyptus Essential Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Contains eucalyptol (1,8-cineole) which can be irritating at the concentrations used in skincare. Can increase transepidermal water loss and trigger inflammation.",
+    disputedNote: null,
+    references: [{ label: "Essential Oil Dermatology", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Contains eucalyptol (1,8-cineole) which can be irritating at skincare concentrations. Can increase transepidermal water loss and trigger inflammation."
+  },
+  {
+    id: "tea-tree-oil",
+    canonicalName: "Tea Tree Oil",
+    aliases: ["Melaleuca Alternifolia Oil", "Tea Tree Essential Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Effective antimicrobial (used as an acne treatment at 5%), but can be sensitizing and irritating. Higher concentrations frequently cause redness, peeling, and contact dermatitis. The oxidized form is significantly more allergenic than fresh oil.",
+    disputedNote: null,
+    references: [{ label: "Tea Tree Oil Safety Review", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Effective antimicrobial at 5%, but can be sensitizing and irritating. Higher concentrations frequently cause redness, peeling, and contact dermatitis."
+  },
+  {
+    id: "lemon-oil",
+    canonicalName: "Lemon Oil / Citrus Oil",
+    aliases: ["Citrus Limon Oil", "Lemon Essential Oil", "Citrus Medica Limonum Oil", "Citrus Oil", "Orange Oil", "Bergamot Oil", "Citrus Bergamia Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Highly irritating due to limonene content. Also phototoxic — causes severe skin reactions when exposed to UV light. Can trigger post-inflammatory hyperpigmentation in acne-prone skin.",
+    disputedNote: null,
+    references: [{ label: "Phototoxicity Research", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "high",
+    irritantNote: "Highly irritating due to limonene content. Also phototoxic — causes severe skin reactions when exposed to UV light. Can trigger post-inflammatory hyperpigmentation."
+  },
+  {
+    id: "camphor",
+    canonicalName: "Camphor",
+    aliases: ["Cinnamomum Camphora", "Camphor Bark Oil"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Strong irritant and sensitizer. Found in many cooling or tingling products, but the sensation is actually a mild inflammatory reaction. Can cause contact dermatitis and worsen acne through irritation.",
+    disputedNote: null,
+    references: [{ label: "Contact Dermatitis Studies", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "high",
+    irritantNote: "Strong irritant and sensitizer. The cooling or tingling sensation is actually a mild inflammatory reaction. Can cause contact dermatitis and worsen acne through irritation."
+  },
+  {
+    id: "linalool",
+    canonicalName: "Linalool",
+    aliases: ["Linalyl Alcohol"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "One of the most common fragrance allergens. Present in lavender, bergamot, rose, and many other essential oils. Repeated exposure can lead to sensitization, where skin develops an allergic reaction over time. EU requires separate labeling.",
+    disputedNote: null,
+    references: [{ label: "EU Allergen Regulation", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "One of the most common fragrance allergens. Present in lavender, bergamot, rose, and other essential oils. Repeated exposure can lead to sensitization."
+  },
+  {
+    id: "benzoyl-peroxide",
+    canonicalName: "Benzoyl Peroxide",
+    aliases: ["BPO", "Dibenzoyl Peroxide"],
+    category: "irritant",
+    scientificConfidence: "irritant",
+    rationale: "Effective acne treatment, but highly drying and irritating. Strips the skin barrier and causes peeling. While it treats active acne, the irritation can trigger new breakouts through barrier disruption. 2.5% is as effective as 10% with far less irritation.",
+    disputedNote: null,
+    references: [{ label: "Acne Treatment Research", url: "https://pubmed.ncbi.nlm.nih.gov/" }],
+    irritantPotential: "moderate",
+    irritantNote: "Effective acne treatment, but highly drying and irritating. Strips the skin barrier and causes peeling. 2.5% is as effective as 10% with far less irritation."
   }
 ];
 

@@ -659,6 +659,8 @@ function classifyMatch(match, totalIngredients, orderVerified) {
     result = getConcentrationTier(match, totalIngredients, orderVerified);
   } else if (matchConfidence === 'high' && sci === 'moderate') {
     result = { ...match, badge: '\uD83D\uDFE1', tier: 'possible', tierLabel: 'Possible Concern' };
+  } else if (sci === 'irritant') {
+    result = { ...match, badge: '\u26A1', tier: 'irritant', tierLabel: 'Irritant / Barrier Disruptor' };
   } else {
     result = { ...match, badge: '\u26A0\uFE0F', tier: 'uncertain', tierLabel: 'Uncertain' };
   }
@@ -870,7 +872,13 @@ function analyzeIngredients(inputText, orderVerified) {
 
   // Classify each match using the two-axis matrix.
   const concerns = deduped.map(function (match) {
-    return classifyMatch(match, parsed.length, orderVerified);
+    var result = classifyMatch(match, parsed.length, orderVerified);
+    if (match.entry.irritantPotential) {
+      result.irritantPotential = match.entry.irritantPotential;
+      result.irritantNote = match.entry.irritantNote;
+      result.hasIrritantFlag = (result.badge !== '\u26A1'); // Don't flag twice
+    }
+    return result;
   });
   concerns.sort(function (a, b) { return a.position - b.position; });
 
@@ -881,12 +889,15 @@ function analyzeIngredients(inputText, orderVerified) {
   const uncertainCount = concerns.filter(function (c) {
     return c.badge === '\u26A0\uFE0F';
   }).length;
+  const irritantCount = concerns.filter(function (c) {
+    return c.badge === '\u26A1';
+  }).length;
   const safeCount = allSafe.length;
 
   const productScore = calculateProductScore(concerns, total);
 
   return {
-    summary: { total: total, concernCount: concernCount, uncertainCount: uncertainCount, safeCount: safeCount },
+    summary: { total: total, concernCount: concernCount, uncertainCount: uncertainCount, irritantCount: irritantCount, safeCount: safeCount },
     score: productScore,
     concerns: concerns,
     safe: allSafe
@@ -939,6 +950,13 @@ function calculateProductScore(concerns, totalIngredients) {
       else ingredientPenalty = 0.5;
     } else { // ⚠️
       ingredientPenalty = 0.25;
+    }
+
+    // Add irritant penalty on top of comedogenic penalty
+    if (concern.irritantPotential === 'high') {
+      ingredientPenalty += 0.5;
+    } else if (concern.irritantPotential === 'moderate') {
+      ingredientPenalty += 0.25;
     }
 
     penalty += ingredientPenalty;
@@ -1109,7 +1127,13 @@ window.runMatcherTests = function () {
     { name: 'Score: single RED short list = low', input: 'Coconut Oil', check: function (r) { return r.score && r.score.score <= 4; } },
     { name: 'Score: RED at bottom position = moderate penalty', input: 'Water, Glycerin, Dimethicone, Tocopherol, Phenoxyethanol, Silica, Coconut Oil', check: function (r) { return r.score && r.score.score >= 7; } },
     { name: 'Score: multi-concern accumulated penalty', input: 'Isopropyl Myristate, Coconut Oil, Isopropyl Palmitate, Water, Tocopherol', check: function (r) { return r.score && r.score.score <= 5; } },
-    { name: 'Score: uncertain only = minor penalty', input: 'Water, Tocopherol, Glycerin', check: function (r) { return r.score && r.score.score >= 9; } }
+    { name: 'Score: uncertain only = minor penalty', input: 'Water, Tocopherol, Glycerin', check: function (r) { return r.score && r.score.score >= 9; } },
+
+    // ── Irritant detection ──
+    { name: 'Irritant: SD alcohol detected', input: 'SD Alcohol', check: function (r) { return r.concerns.some(function (c) { return c.entry.id === 'sd-alcohol' && c.badge === '\u26A1'; }); } },
+    { name: 'Irritant: fragrance detected', input: 'Parfum', check: function (r) { return r.concerns.some(function (c) { return c.entry.id === 'fragrance' && c.badge === '\u26A1'; }); } },
+    { name: 'Combo: SLS comedogenic + irritant', input: 'Sodium Lauryl Sulfate', check: function (r) { return r.concerns.some(function (c) { return c.entry.id === 'sls-sles' && c.hasIrritantFlag; }); } },
+    { name: 'Irritant penalty in score', input: 'SD Alcohol, Parfum, Lavender Oil', check: function (r) { return r.score && r.score.score <= 9; } }
   ];
 
   var passed = 0;

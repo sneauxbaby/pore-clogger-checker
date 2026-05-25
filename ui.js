@@ -361,6 +361,17 @@ function copyAllResults() {
     lines.push("");
   }
 
+  const purple = results.concerns.filter(function (c) { return c.badge === '\u26A1'; });
+  if (purple.length) {
+    lines.push('\u26A1 IRRITANTS (' + purple.length + '):');
+    purple.forEach(function (c) { 
+      var line = '  ' + c.entry.canonicalName;
+      if (c.irritantPotential) line += ' — ' + c.irritantPotential + ' irritant';
+      lines.push(line); 
+    });
+    lines.push('');
+  }
+
   if (results.safe.length) {
     lines.push(
       "\u2705 SAFE (" + results.safe.length + "):"
@@ -396,6 +407,7 @@ function renderResults(results) {
   const total = results.summary.total;
   const concernCount = results.summary.concernCount;
   const uncertainCount = results.summary.uncertainCount;
+  const irritantCount = results.summary.irritantCount;
   const safeCount = results.summary.safeCount;
 
   var summaryHtml = '<span>' + total + " " +
@@ -415,6 +427,15 @@ function renderResults(results) {
       ' <span class="count-badge uncertain">' +
       uncertainCount +
       " uncertain</span>";
+  }
+
+  if (irritantCount > 0) {
+    summaryHtml +=
+      ' <span class="count-badge irritant">' +
+      irritantCount +
+      ' irritant' +
+      (irritantCount !== 1 ? 's' : '') +
+      '</span>';
   }
 
   summaryHtml +=
@@ -476,7 +497,8 @@ function renderConcernItem(concern) {
     "\uD83D\uDD34": "badge-red",
     "\uD83D\uDFE1": "badge-orange",
     "\u26A0\uFE0F": "badge-blue",
-    "\u2705": "badge-green"
+    "\u2705": "badge-green",
+    "\u26A1": "badge-purple"
   };
   const badgeColor = badgeColors[concern.badge] || "gray";
 
@@ -551,6 +573,7 @@ function renderConcernItem(concern) {
     '<span class="position-badge">Position ' +
     concern.position +
     "</span>" +
+    (concern.hasIrritantFlag ? '<span class="irritant-badge" title="Also a known skin irritant">\u26A1 Irritant</span>' : '') +
     (concern.ruleOf7 ? '<span class="rule-7-badge" title="Top 7 ingredients have the highest concentration">\uD83C\uDFF7\uFE0F Top 7</span>' : '') +
     '<span class="match-info">' +
     escapeHtml(matchInfoHtml) +
@@ -577,6 +600,7 @@ function renderConcernItem(concern) {
     escapeHtml(concern.entry.rationale) +
     "</p>" +
     disputedHtml +
+    (concern.hasIrritantFlag ? '<div class="irritant-note">' + escapeHtml(concern.irritantNote || '') + '</div>' : '') +
     '<div class="references">' +
     referencesHtml +
     '<a href="' +

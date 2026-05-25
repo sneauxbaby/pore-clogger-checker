@@ -903,6 +903,47 @@ body {
   }
 }
 
+/* ─── Irritant Styles ─────────────────────────────────────────────────── */
+
+.badge-purple {
+  background-color: #7c3aed;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+}
+
+.irritant-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  background: rgba(124, 58, 237, 0.15);
+  color: #a78bfa;
+  border-radius: 50px;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.irritant-note {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background: rgba(124, 58, 237, 0.1);
+  border-left: 3px solid #7c3aed;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  color: #c4b5fd;
+  line-height: 1.5;
+}
+
+.count-badge.irritant {
+  background: rgba(124, 58, 237, 0.2);
+  color: #a78bfa;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
 /* ─── Print Styles ───────────────────────────────────────────────────────── */
 
 @media print {
@@ -946,7 +987,7 @@ body {
     border-left-width: 4px;
   }
 
-  .badge-red, .badge-orange, .badge-blue, .badge-green {
+  .badge-red, .badge-orange, .badge-blue, .badge-green, .badge-purple {
     color: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
